@@ -19,11 +19,10 @@ def move():
     y1 = y1 + 1 + dy
     if playing > 0:
         x1, y1 = x1 + dx, (y1 + dy)
+    elif nextplayer == 0:
+        x1, y1, dx = rfb + 10, lpos + (rs - Taille_de_la_balle) / 2, abs(dx)
     else:
-        if nextplayer == 0:
-            x1, y1, dx = rfb + 10, lpos + (rs - Taille_de_la_balle) / 2, abs(dx)
-        else:
-            x1, y1, dx = largeur - rfb - 10, rpos + (rs-Taille_de_la_balle) / 2, -abs(dx)
+        x1, y1, dx = largeur - rfb - 10, rpos + (rs-Taille_de_la_balle) / 2, -abs(dx)
    #Rebondissement de la balle sur le haut et bas de la fenêtre
     if y1 > hauteur - Taille_de_la_balle:
         y1 = hauteur - Taille_de_la_balle
@@ -49,14 +48,13 @@ def move():
         x1, y1 = rfb, (hauteur / 2)
     if x1 < 0:
         x1, y1 = largeur - rfb, (hauteur / 2)
-    if x1 <= rfb:
-        if y1 > lpos and y1 < (lpos + rs):
-            x1, dx = rfb + 5, -dx
+    if x1 <= rfb and y1 > lpos and y1 < (lpos + rs):
+        x1, dx = rfb + 5, -dx
     if x1 >= largeur - rfb - Taille_de_la_balle:
         x1, dx = (largeur - rfb - Taille_de_la_balle - 5), -dx
     can.coords(ovall, x1, y1, x1 + 30, y1 + 30)
-    score = str(lplayer) + ":" + str(rplayer)
-    can.itemconfigure(compteur, text="Joueur 1      " + score + "       Joueur2")   #Affiche le score des joueurs
+    score = f"{str(lplayer)}:{str(rplayer)}"
+    can.itemconfigure(compteur, text=f"Joueur 1      {score}       Joueur2")
     can.coords(rracket, largeur - rfb, rpos, largeur - rfb, rpos + rs)      #Taille racket gauche
     can.coords(lracket, rfb, lpos, rfb, lpos + rs)
 
